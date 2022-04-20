@@ -1,6 +1,8 @@
 package com.sodved.itesteg.app.itest;
 
 import com.sodved.itesteg.app.service.ApplicationTableService;
+import com.sodved.itesteg.lib.domain.InnoTable;
+import com.sodved.itesteg.lib.service.TableService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,15 +25,20 @@ import lombok.extern.slf4j.Slf4j;
 @SpringBootTest(classes=DummyApplicationContext.class)
 public class IntegrationIT {
 
+    private static final String tableName = "SYS_VIRTUAL";
+
     @Autowired
     private DataSource mariadb;
 
-    @Qualifier("verticaDataSource")
+    //@Qualifier("verticaDataSource")
+    //@Autowired
+    //DataSource vertica;
+
     @Autowired
-    DataSource vertica;
+    TableService tableService;
 
     //@Autowired
-    //private JobProcessor jobProcessor;
+    //private ApplicationTableService applicationTableService;
 
     @Test
     public void testApplicationLoaded() {
@@ -48,14 +55,26 @@ public class IntegrationIT {
         }
     }
 
+    //@Test
+    //public void testVertica() throws Exception {
+        //try (Connection conn = vertica.getConnection();
+             //Statement stmt = conn.createStatement();
+             //ResultSet rs = stmt.executeQuery("SELECT 'fred'")) {
+            //Assertions.assertTrue(rs.next());
+            //Assertions.assertEquals("fred", rs.getString(1));
+        //}
+    //}
+
     @Test
-    public void testVertica() throws Exception {
-        try (Connection conn = vertica.getConnection();
-             Statement stmt = conn.createStatement();
-             ResultSet rs = stmt.executeQuery("SELECT 'fred'")) {
-            Assertions.assertTrue(rs.next());
-            Assertions.assertEquals("fred", rs.getString(1));
-        }
+    public void testLibService() throws Exception {
+        InnoTable table = tableService.getTableByName(tableName);
+        Assertions.assertEquals(tableName, table.getName());
     }
+
+    //@Test
+    //public void testAppService() throws Exception {
+        //InnoTable table = applicationTableService.getSpecialTable();
+        //Assertions.assertEquals("SYS_VIRTUAL", table.getName());
+    //}
 
 }

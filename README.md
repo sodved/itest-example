@@ -48,5 +48,20 @@ Caused by: org.springframework.beans.factory.NoSuchBeanDefinitionException: No q
 ```
 What is really weird is that it works if I move the [VerticaConfig](itest-app/src/main/java/com/sodved/itesteg/app/config/VerticaConfig.java) class into the `itest-lib` module it will then work.
 
+You can see this in the [vertica-config-in-lib branch](https://github.com/sodved/itest-example/tree/vertica-config-in-lib). This is not a valid workaround for the production case I am mimicking, not every module which uses `lib` will have a vertica environment available.
+
 Why does the location of the source file matter?
+
+## Application Class Not Found
+So this is probably related, but even weirder. If my test class wants to use a service from `itest-app` module the test class will not load with a `ClassNotFoundException`.
+```
+[ERROR] com.sodved.itesteg.app.itest.IntegrationIT  Time elapsed: 0.003 s  <<< ERROR!
+java.lang.NoClassDefFoundError: Lcom/sodved/itesteg/app/service/ApplicationTableService;
+Caused by: java.lang.ClassNotFoundException: com.sodved.itesteg.app.service.ApplicationTableService
+```
+Weird in that no stack trace or anything. Everything compiled OK.
+
+If I use a service class from the lib module it works ok. So in conjunction with the above point it appears that SprintBootTest is somehow not acknowledging the classes in `itest-app` module (package `com.sodved.itesteg.app`), only the ones in the `itest-lib` module (package `com.sodved.itesteg.lib`).
+
+In the [test context](https://github.com/sodved/itest-example/blob/vertica-config-in-lib/itest-app/src/test/java/com/sodved/itesteg/app/itest/DummyApplicationContext.java#L7) I tell it to scan all `com.sodved.itesteg` packages. This is what the main app does and it all works fine.
 
