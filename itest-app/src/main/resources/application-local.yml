@@ -1,0 +1,11 @@
+metadata:
+  datasource:
+    url: jdbc:mariadb://192.168.59.103:13306/information_schema
+    password: root
+    username: root
+
+reporting:
+  datasource:
+    jdbcUrl: jdbc:vertica://192.168.59.103:15433/docker?allowMultiQueries=true
+    username: app_dlg_reporting
+    password: dlg_reportingpwd

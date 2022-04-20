@@ -1,0 +1,36 @@
+sodved:
+  specialTable: SYS_VIRTUAL
+
+metadata:
+  datasource:
+    connectionTestQuery: select 1
+    driverClassName: org.mariadb.jdbc.Driver
+    maximumPoolSize: 10
+    minimumIdle: 1
+    poolName: mariadb-connection-pool
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+
+reporting:
+  datasource:
+    auto-commit: true
+    platform: vertica
+    connectionTestQuery: select 1
+    driverClassName: com.vertica.jdbc.Driver
+    maximumPoolSize: 10
+    minimumIdle: 1
+    poolName: vertica-connection-pool
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
+logging:
+  level:
+    com.sodved: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file: /tmp/itest-example.log
