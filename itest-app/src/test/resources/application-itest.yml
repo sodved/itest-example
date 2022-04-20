@@ -1,0 +1,11 @@
+metadata:
+  datasource:
+    url: jdbc:mariadb://${docker.mariadb.ip}:${docker.mariadb.port}/information_schema
+    password: root
+    username: root
+
+reporting:
+  datasource:
+    url: jdbc:vertica://${docker.vertica.ip}:${docker.vertica.port}/VMart?allowMultiQueries=true
+    username: app
+    password: pswd

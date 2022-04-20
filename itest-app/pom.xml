@@ -70,11 +70,14 @@
                             <name>mariadb:latest</name>
                             <alias>itest-mariadb</alias>
                             <run>
+                                <env>
+                                    <MARIADB_ROOT_PASSWORD>root</MARIADB_ROOT_PASSWORD>
+                                </env>
                                 <ports>
                                     <port>+docker.mariadb.ip:docker.mariadb.port:3306</port>
                                 </ports>
                                 <wait>
-                                    <log>\[Note] /usr/sbin/mysqld: ready for connections.</log>
+                                    <log>\[Note] mariadbd: ready for connections</log>
                                     <time>10000</time>
                                 </wait>
                             </run>
@@ -83,12 +86,16 @@
                             <name>vertica/vertica-ce:latest</name>
                             <alias>itest-vertica</alias>
                             <run>
+                                <env>
+                                    <APP_DB_USER>app</APP_DB_USER>
+                                    <APP_DB_PASSWORD>pswd</APP_DB_PASSWORD>
+                                </env>
                                 <ports>
                                     <port>+docker.vertica.ip:docker.vertica.port:5433</port>
                                 </ports>
                                 <wait>
                                     <log>^Vertica is now running</log>
-                                    <time>60000</time>
+                                    <time>120000</time>
                                 </wait>
                             </run>
                         </image>
