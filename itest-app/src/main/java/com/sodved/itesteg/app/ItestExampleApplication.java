@@ -1,12 +1,13 @@
 package com.sodved.itesteg.app;
 
 import com.sodved.itesteg.app.service.ApplicationTableService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 
@@ -21,14 +22,17 @@ public class ItestExampleApplication implements CommandLineRunner {
 
     public static void main(String[] args) {
         log.info("STARTING THE APPLICATION");
-        SpringApplication.run(ItestExampleApplication.class, args);
+        ConfigurableApplicationContext context = SpringApplication.run(ItestExampleApplication.class, args);
         log.info("APPLICATION FINISHED");
+        context.close();
     }
 
     @Override
     public void run(String... args) throws Exception {
         log.info("Application running...");
-        applicationTableService.listTables();
+        applicationTableService.listMariadbTables();
+        applicationTableService.listVerticaTables();
+        log.info("Special Table: {}", applicationTableService.getSpecialTable());
     }
 
 }
