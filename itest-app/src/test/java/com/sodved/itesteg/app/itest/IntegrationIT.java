@@ -26,9 +26,9 @@ public class IntegrationIT {
     @Autowired
     private DataSource mariadb;
 
-    //@Qualifier("verticaDataSource")
-    //@Autowired
-    //DataSource vertica;
+    @Qualifier("verticaDataSource")
+    @Autowired
+    DataSource vertica;
 
     //@Autowired
     //private JobProcessor jobProcessor;
@@ -39,8 +39,18 @@ public class IntegrationIT {
     }
 
     @Test
-    public void testMariadbConnection() throws Exception {
+    public void testMariadb() throws Exception {
         try (Connection conn = mariadb.getConnection();
+             Statement stmt = conn.createStatement();
+             ResultSet rs = stmt.executeQuery("SELECT 'fred'")) {
+            Assertions.assertTrue(rs.next());
+            Assertions.assertEquals("fred", rs.getString(1));
+        }
+    }
+
+    @Test
+    public void testVertica() throws Exception {
+        try (Connection conn = vertica.getConnection();
              Statement stmt = conn.createStatement();
              ResultSet rs = stmt.executeQuery("SELECT 'fred'")) {
             Assertions.assertTrue(rs.next());
